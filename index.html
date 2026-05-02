@@ -60,8 +60,7 @@ h1 {
   margin-top: 30px;
 }
 
-.nav a {
-  text-decoration: none;
+.nav button {
   text-align: center;
   padding: 10px;
   border-radius: 10px;
@@ -70,9 +69,40 @@ h1 {
   color: #2a143a;
 
   border: 1px solid rgba(80, 40, 120, 0.2);
+  cursor: pointer;
 }
 
-.nav a:hover {
+.nav button:hover {
+  background: rgba(120, 80, 180, 0.25);
+}
+
+/* ===== CONTENT ===== */
+#content {
+  margin-top: 20px;
+  animation: fade 0.25s ease;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  margin-top: 30px;
+  display: block;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+
+  background: rgba(80, 40, 120, 0.1);
+  color: #2a143a;
+
+  border: 1px solid rgba(80, 40, 120, 0.2);
+  cursor: pointer;
+}
+
+.back-btn:hover {
   background: rgba(120, 80, 180, 0.25);
 }
 
@@ -100,25 +130,63 @@ the Animalistic Tendencies of a Human
 </p>
 
 <div class="nav">
-  <a href="Trigger.html">Trigger</a>
-  <a href="Wolf.html">Wolf</a>
-  <a href="Fox.html">Fox</a>
-  <a href="Lion.html">Lion</a>
-  <a href="Dog.html">Dog</a>
-  <a href="Rabbit.html">Rabbit</a>
-  <a href="Cat.html">Cat</a>
-  <a href="Bear.html">Bear</a>
-  <a href="Scorpion.html">Scorpion</a>
-  <a href="Elk.html">Elk</a>
+  <button onclick="loadPage('Trigger.html')">Trigger</button>
+  <button onclick="loadPage('Wolf.html')">Wolf</button>
+  <button onclick="loadPage('Fox.html')">Fox</button>
+  <button onclick="loadPage('Lion.html')">Lion</button>
+  <button onclick="loadPage('Dog.html')">Dog</button>
+  <button onclick="loadPage('Rabbit.html')">Rabbit</button>
+  <button onclick="loadPage('Cat.html')">Cat</button>
+  <button onclick="loadPage('Bear.html')">Bear</button>
+  <button onclick="loadPage('Scorpion.html')">Scorpion</button>
+  <button onclick="loadPage('Elk.html')">Elk</button>
 </div>
 
 <hr style="margin-top:30px; opacity:0.3;">
 
-<p>
-This is a structural framework describing instinctive behavioral shifts following disruption of internal stability. 
-</p>
+<!-- ===== CONTENT AREA ===== -->
+<div id="content">
+  <p>
+  This is a structural framework describing instinctive behavioral shifts following disruption of internal stability.
+  </p>
+</div>
+
+<!-- ===== BACK BUTTON ===== -->
+<button class="back-btn" onclick="goHome()">Back to Home</button>
 
 </div>
+
+<script>
+const homeContent = `
+<p>
+This is a structural framework describing instinctive behavioral shifts following disruption of internal stability.
+</p>
+`;
+
+async function loadPage(page) {
+  const content = document.getElementById("content");
+
+  content.innerHTML = "<p>Loading...</p>";
+
+  try {
+    const response = await fetch(page);
+    const html = await response.text();
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    content.innerHTML = doc.body.innerHTML;
+
+  } catch (err) {
+    content.innerHTML = "<p>Failed to load content.</p>";
+    console.error(err);
+  }
+}
+
+function goHome() {
+  document.getElementById("content").innerHTML = homeContent;
+}
+</script>
 
 </body>
 </html>
